@@ -4,22 +4,342 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Equipment | R.G. Manalo Scaffolding Rentals</title>
-  <meta name="description" content="Browse our available scaffolding and construction equipment for rent in Porac, Pampanga." />
+  <meta name="description" content="Browse our full range of scaffolding and construction equipment for rent — H-Frame scaffolding, shoring jacks, GI pipes, clamps, aluma beams, mixers, and more. Serving Pampanga and Luzon-wide since 1995." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css" />
+
+  <!-- Equipment-specific styles -->
+  <style>
+    /* ===== EQUIPMENT GALLERY SECTION ===== */
+    .equip-section {
+      background: #ffffff;
+      padding: 80px 0;
+    }
+    .equip-tabs-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 44px;
+    }
+    .equip-category-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      margin-top: 28px;
+    }
+    .equip-tab {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 600;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 10px 20px;
+      border-radius: 6px;
+      border: 2px solid var(--border);
+      background: #fff;
+      color: var(--brand-dark);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .equip-tab:hover {
+      border-color: var(--brand-dark);
+    }
+    .equip-tab.active {
+      background: var(--brand-dark);
+      color: #fff;
+      border-color: var(--brand-dark);
+    }
+
+    /* ===== EQUIPMENT GALLERY GRID ===== */
+    .equip-gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 24px;
+    }
+    .equip-gallery-card {
+      background: #fff;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      overflow: hidden;
+      transition: all 0.3s ease;
+      box-shadow: var(--shadow-sm);
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+    }
+    .equip-gallery-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+      border-color: #d0d3d9;
+    }
+    .equip-gallery-card .egc-image {
+      aspect-ratio: 4 / 3;
+      background: #f0f0f0;
+      background-size: cover;
+      background-position: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .equip-gallery-card .egc-image::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent 60%, rgba(37, 38, 38, 0.35) 100%);
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+    }
+    .equip-gallery-card:hover .egc-image::after {
+      opacity: 1;
+    }
+    .equip-gallery-card .egc-zoom {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: rgba(37, 38, 38, 0.85);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transform: scale(0.85);
+      transition: all 0.25s;
+      z-index: 2;
+    }
+    .equip-gallery-card:hover .egc-zoom {
+      opacity: 1;
+      transform: scale(1);
+    }
+    .equip-gallery-card .egc-zoom svg {
+      width: 16px;
+      height: 16px;
+      stroke: #fff;
+      fill: none;
+      stroke-width: 2.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .equip-gallery-card .egc-body {
+      padding: 18px 20px 20px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    .equip-gallery-card .egc-cat {
+      display: inline-block;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 600;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      color: #fff;
+      background: var(--brand-secondary);
+      padding: 3px 9px;
+      border-radius: 3px;
+      align-self: flex-start;
+      margin-bottom: 10px;
+    }
+    .equip-gallery-card .egc-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--brand-dark);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      line-height: 1.2;
+      margin-bottom: 8px;
+    }
+    .equip-gallery-card .egc-desc {
+      font-family: 'Barlow', sans-serif;
+      font-size: 0.88rem;
+      color: var(--text-body);
+      line-height: 1.5;
+      margin: 0;
+    }
+
+    /* Hidden by filter */
+    .equip-gallery-card.hidden {
+      display: none;
+    }
+
+    /* ===== EQUIPMENT DETAIL LIGHTBOX ===== */
+    .equip-lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.92);
+      z-index: 3500;
+      align-items: center;
+      justify-content: center;
+      padding: 30px;
+      overflow-y: auto;
+    }
+    .equip-lightbox.active { display: flex; }
+    .equip-lightbox-inner {
+      background: #fff;
+      border-radius: 12px;
+      max-width: 980px;
+      width: 100%;
+      max-height: 90vh;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      box-shadow: 0 24px 80px rgba(0, 0, 0, 0.5);
+      position: relative;
+      animation: lbIn 0.3s ease;
+    }
+    @keyframes lbIn {
+      from { opacity: 0; transform: scale(0.96) translateY(10px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+    .equip-lightbox-image {
+      background: #1a1b1b;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 340px;
+      overflow: hidden;
+    }
+    .equip-lightbox-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .equip-lightbox-content {
+      padding: 40px 36px;
+      overflow-y: auto;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .equip-lightbox-content .elb-cat {
+      display: inline-block;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 0.78rem;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: #fff;
+      background: var(--brand-secondary);
+      padding: 5px 14px;
+      border-radius: 4px;
+      margin-bottom: 16px;
+      align-self: flex-start;
+    }
+    .equip-lightbox-content h2 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 800;
+      font-size: 1.9rem;
+      line-height: 1.1;
+      color: var(--brand-dark);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 20px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+    }
+    .equip-lightbox-content .elb-desc {
+      font-family: 'Barlow', sans-serif;
+      font-size: 1.02rem;
+      color: var(--text-dark);
+      line-height: 1.65;
+      margin-bottom: 20px;
+    }
+    .equip-lightbox-content .elb-block {
+      margin-bottom: 18px;
+    }
+    .equip-lightbox-content .elb-block-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--brand-secondary);
+      margin-bottom: 10px;
+      display: block;
+    }
+    .equip-lightbox-content .elb-block ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .equip-lightbox-content .elb-block ul li {
+      font-family: 'Barlow', sans-serif;
+      font-size: 0.88rem;
+      color: var(--brand-dark);
+      background: var(--light-gray);
+      padding: 6px 12px;
+      border-radius: 14px;
+      font-weight: 500;
+      border: 1px solid var(--border);
+    }
+    .equip-lightbox-close {
+      position: absolute;
+      top: 14px;
+      right: 16px;
+      background: rgba(37, 38, 38, 0.85);
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      font-size: 1.6rem;
+      line-height: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      z-index: 5;
+    }
+    .equip-lightbox-close:hover {
+      background: var(--brand-secondary);
+      transform: rotate(90deg);
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .equip-lightbox-inner {
+        grid-template-columns: 1fr;
+        max-height: 92vh;
+      }
+      .equip-lightbox-image {
+        min-height: 220px;
+        max-height: 280px;
+      }
+      .equip-lightbox-content { padding: 28px 24px; max-height: none; }
+      .equip-lightbox-content h2 { font-size: 1.5rem; }
+    }
+    @media (max-width: 768px) {
+      .equip-gallery-grid { grid-template-columns: 1fr 1fr; gap: 16px; }
+      .equip-gallery-card .egc-body { padding: 14px 14px 16px; }
+      .equip-gallery-card .egc-title { font-size: 0.98rem; }
+      .equip-gallery-card .egc-desc { font-size: 0.8rem; }
+      .equip-tab { font-size: 0.8rem; padding: 8px 14px; }
+    }
+    @media (max-width: 480px) {
+      .equip-gallery-grid { grid-template-columns: 1fr; }
+      .equip-lightbox { padding: 12px; }
+      .equip-lightbox-content { padding: 22px 18px; }
+      .equip-lightbox-content h2 { font-size: 1.3rem; }
+      .equip-lightbox-image { min-height: 180px; max-height: 220px; }
+    }
+  </style>
 </head>
 <body>
 
   <a href="https://www.facebook.com/" target="_blank" rel="noopener" class="sticky-facebook" aria-label="Visit our Facebook page">
     <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
   </a>
-
-  <div class="fullscreen-overlay" id="fullscreenOverlay">
-    <button class="close-full" id="closeFullscreen">&times;</button>
-    <img src="" alt="Fullscreen view" id="fullscreenImg" />
-  </div>
 
   <header class="site-header" id="siteHeader">
     <div class="container header-inner">
@@ -48,56 +368,33 @@
     <div class="container">
       <div class="breadcrumb"><a href="index.html">Home</a> / Equipment</div>
       <h1>Equipment Rentals</h1>
-      <p>Explore our range of scaffolding and construction equipment available for rent.</p>
+      <p>Explore our full range of scaffolding and construction equipment available for rent across Pampanga and Luzon-wide.</p>
     </div>
   </section>
 
-  <section class="gallery">
+  <!-- ===== EQUIPMENT GALLERY (sortable + with descriptions) ===== -->
+  <section class="equip-section" id="gallery">
     <div class="container">
-      <p class="section-sub">All equipment is maintained and inspected for safety and reliability. Click any item to view a larger image.</p>
-      <div class="gallery-grid" id="equipmentGrid"></div>
-    </div>
-  </section>
-
-  <section style="background: var(--light-gray);">
-    <div class="container">
-      <div class="text-center">
-        <h2 class="section-title">What We Offer</h2>
-        <p class="section-sub">A closer look at the equipment categories we provide for construction projects.</p>
-      </div>
-      <div class="card-grid">
-        <div class="card">
-          <div class="card-img" style="background-image:url('images/gallery-8.jpg');" onclick="openFullscreen('images/gallery-8.jpg')"></div>
-          <div class="card-body">
-            <h3>Scaffolding Pipes (BS 1139)</h3>
-            <p>Durable steel pipes for safe and stable scaffolding structures.</p>
-          </div>
+      <div class="equip-tabs-wrap">
+        <div class="text-center">
+          <h2 class="section-title">Equipment Gallery</h2>
+          <p class="section-sub">Browse our complete equipment catalog. Click any item to see details, or use the tabs below to filter by category.</p>
         </div>
-        <div class="card">
-          <div class="card-img" style="background-image:url('images/gallery-6.jpg');" onclick="openFullscreen('images/gallery-6.jpg')"></div>
-          <div class="card-body">
-            <h3>Forge Clamps</h3>
-            <p>Fixed and swivel clamps for secure pipe connections.</p>
-          </div>
-        </div>
-        <div class="card">
-          <div class="card-img" style="background-image:url('images/gallery-5.jpg');" onclick="openFullscreen('images/gallery-5.jpg')"></div>
-          <div class="card-body">
-            <h3>Steel Planks</h3>
-            <p>Strong and reliable planks for scaffolding platforms.</p>
-          </div>
-        </div>
-        <div class="card">
-          <div class="card-img" style="background-image:url('images/gallery-1.jpg');" onclick="openFullscreen('images/gallery-1.jpg')"></div>
-          <div class="card-body">
-            <h3>Base Plates &amp; Accessories</h3>
-            <p>Base plates, couplers, and other essential scaffolding accessories.</p>
-          </div>
+        <div class="equip-category-tabs" id="galleryTabs">
+          <button class="equip-tab active" data-filter="all">All Equipment</button>
+          <button class="equip-tab" data-filter="scaffolding">Scaffolding</button>
+          <button class="equip-tab" data-filter="jacks">Jacks &amp; Supports</button>
+          <button class="equip-tab" data-filter="pipes">Pipes &amp; Clamps</button>
+          <button class="equip-tab" data-filter="planks">Planks &amp; Catwalks</button>
+          <button class="equip-tab" data-filter="accessories">Accessories</button>
         </div>
       </div>
+
+      <div class="equip-gallery-grid" id="equipmentGalleryGrid"></div>
     </div>
   </section>
 
+  <!-- ===== CTA ===== -->
   <section class="featured-cta">
     <div class="container">
       <h2>Need a Specific Piece of Equipment?</h2>
@@ -113,7 +410,7 @@
           <img src="images/logo.png" alt="R.G. Manalo Scaffolding Rentals logo" />
           <span style="font-weight:700;color:#fff;font-family:'Barlow Condensed',sans-serif;">R.G. Manalo Scaffolding Rental</span>
         </div>
-        <p>Reliable scaffolding and construction equipment rentals for your project needs.</p>
+        <p>Affordable, safety-tested scaffolding and construction equipment rentals in Pampanga and long-distance project sites. Trusted since 1995.</p>
       </div>
       <div>
         <h4>Quick Links</h4>
@@ -132,6 +429,7 @@
           <li><a href="equipment.html">Scaffolding Rental</a></li>
           <li><a href="equipment.html">Construction Equipment</a></li>
           <li><a href="contact.html">Delivery &amp; Pickup</a></li>
+          <li><a href="contact.html">Installation &amp; Dismantling</a></li>
         </ul>
       </div>
       <div>
@@ -141,7 +439,7 @@
       </div>
     </div>
     <div class="footer-bottom">
-      <p>&copy; 2026 R.G. Manalo Scaffolding Rentals. All Rights Reserved.</p>
+      <p>&copy; 2026 R.G. Manalo Scaffolding Rentals. All Rights Reserved. Serving Pampanga since 1995.</p>
     </div>
   </footer>
 
@@ -153,32 +451,314 @@
     </div>
   </div>
 
+  <!-- ===== EQUIPMENT DETAIL LIGHTBOX ===== -->
+  <div class="equip-lightbox" id="equipLightbox" role="dialog" aria-modal="true" aria-labelledby="elbTitle">
+    <div class="equip-lightbox-inner">
+      <button class="equip-lightbox-close" id="elbClose" aria-label="Close">&times;</button>
+      <div class="equip-lightbox-image">
+        <img src="" alt="" id="elbImage" />
+      </div>
+      <div class="equip-lightbox-content">
+        <span class="elb-cat" id="elbCat">Category</span>
+        <h2 id="elbTitle">Equipment Title</h2>
+        <p class="elb-desc" id="elbDesc"></p>
+        <div class="elb-block" id="elbKitBlock" style="display:none;">
+          <span class="elb-block-label">Set Includes</span>
+          <ul id="elbKitList"></ul>
+        </div>
+        <div class="elb-block" id="elbVariantsBlock" style="display:none;">
+          <span class="elb-block-label">Available Lengths / Sizes</span>
+          <ul id="elbVariantsList"></ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script src="js/main.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      const galleryNames = [
-        'Base Plate', 'Coupler Sleeve', 'Beam Clamp',
-        'Tie Rod with Flange Nut — 17"', 'Steel Planks',
-        'Forge Swivel Clamp — BS 1139', 'Forge Fixed Clamp — BS 1139',
-        'BS 1139 Pipe'
+
+      /* =========================================================
+         MASTER EQUIPMENT DATA (20 items)
+         ========================================================= */
+      const equipment = [
+        {
+          id: 'aluma-beam',
+          title: 'Aluma Beam',
+          category: 'planks',
+          catLabel: 'Planks & Catwalks',
+          image: 'images/equipments/alumabeam.jpg',
+          desc: 'Lightweight aluminum beams for formwork and slab support. Available in 2m, 3m, 4m, and 6m lengths.',
+          variants: ['2m', '3m', '4m', '6m']
+        },
+        {
+          id: 'base-jack',
+          title: 'Base Jack',
+          category: 'jacks',
+          catLabel: 'Jacks & Supports',
+          image: 'images/equipments/base-jack.jpg',
+          desc: 'Adjustable base jack for scaffolding leveling on uneven ground. 32mm diameter, 600mm height.'
+        },
+        {
+          id: 'base-plate',
+          title: 'Base Plate',
+          category: 'accessories',
+          catLabel: 'Accessories',
+          image: 'images/equipments/baseplate.jpg',
+          desc: 'Steel base plate for scaffolding footings. Distributes load evenly on the ground.'
+        },
+        {
+          id: 'beam-clamp',
+          title: 'Beam Clamp',
+          category: 'pipes',
+          catLabel: 'Pipes & Clamps',
+          image: 'images/equipments/beamclamp.jpg',
+          desc: 'Beam clamp for suspending scaffolding pipes from structural I-beams and steel beams.'
+        },
+        {
+          id: 'bs1139-pipe',
+          title: 'BS 1139 Pipe',
+          category: 'pipes',
+          catLabel: 'Pipes & Clamps',
+          image: 'images/equipments/bs1139pipe.jpg',
+          desc: 'BS 1139-certified scaffolding steel pipe. Meets British safety standards for scaffolding.',
+          variants: ['1m', '1.5m', '2m', '3m', '4m', '6m']
+        },
+        {
+          id: 'caster-wheel',
+          title: 'Caster Wheel 8"',
+          category: 'accessories',
+          catLabel: 'Accessories',
+          image: 'images/equipments/casterwheel.jpg',
+          desc: 'Heavy-duty 8-inch caster wheel for mobile scaffolding setups.'
+        },
+        {
+          id: 'cat-walk',
+          title: 'Cat Walk — 1.8 × .40mm',
+          category: 'planks',
+          catLabel: 'Planks & Catwalks',
+          image: 'images/equipments/catwalk.jpg',
+          desc: 'Steel catwalk platform for scaffolding. Provides a stable, safe walking surface for workers.'
+        },
+        {
+          id: 'concrete-mixer',
+          title: '1-Bagger Concrete Mixer',
+          category: 'accessories',
+          catLabel: 'Accessories',
+          image: 'images/equipments/concrete-mixer.jpg',
+          desc: 'Portable one-bagger concrete mixer for small to medium concrete pours on site.'
+        },
+        {
+          id: 'coupler-sleeve',
+          title: 'Coupler Sleeve 1 1/2"',
+          category: 'pipes',
+          catLabel: 'Pipes & Clamps',
+          image: 'images/equipments/couplersleeve.jpg',
+          desc: 'Pipe coupler sleeve for joining two G.I. pipes end-to-end. Fits 1 1/2" diameter pipes.'
+        },
+        {
+          id: 'forge-fixed-clamp',
+          title: 'Forge Fixed Clamp (BS 1139)',
+          category: 'pipes',
+          catLabel: 'Pipes & Clamps',
+          image: 'images/equipments/forgefixedclamp.jpg',
+          desc: 'BS 1139-certified fixed (90°) clamp for rigid scaffold pipe connections.'
+        },
+        {
+          id: 'forge-swivel-clamp',
+          title: 'Forge Swivel Clamp (BS 1139)',
+          category: 'pipes',
+          catLabel: 'Pipes & Clamps',
+          image: 'images/equipments/forgeswivelclamp.jpg',
+          desc: 'BS 1139-certified swivel clamp for pipe connections at any angle. Meets British safety standards.'
+        },
+        {
+          id: 'gi-pipe',
+          title: 'G.I. Pipe 1 1/2"',
+          category: 'pipes',
+          catLabel: 'Pipes & Clamps',
+          image: 'images/equipments/gipipe.jpg',
+          desc: 'Galvanized iron pipes in schedule 20 and schedule 40 for scaffolding, bracing, and general construction.',
+          variants: ['1m', '1.5m', '2m', '2.5m', '3m', '4m', '5m', '6m']
+        },
+        {
+          id: 'scaffolding-ladder',
+          title: 'Scaffolding Ladder — 2m × .40cm',
+          category: 'scaffolding',
+          catLabel: 'Scaffolding',
+          image: 'images/equipments/scaffoldingladder.jpg',
+          desc: 'Steel scaffolding ladder for safe vertical access on scaffolding structures.'
+        },
+        {
+          id: 'shoring-jack',
+          title: 'Shoring Jacks S40',
+          category: 'jacks',
+          catLabel: 'Jacks & Supports',
+          image: 'images/equipments/shoringjacks40.jpg',
+          desc: 'Adjustable shoring jacks for supporting formwork, beams, and slabs. Available in 3.4m, 3.8m, and 4m heights.'
+        },
+        {
+          id: 'scaffolding-h-frame',
+          title: 'Scaffolding H-Frame',
+          category: 'scaffolding',
+          catLabel: 'Scaffolding',
+          image: 'images/equipments/scaffoldinghframe.jpg',
+          desc: 'Standard H-frame scaffolding set for vertical access and working platforms. Ideal for construction, painting, and renovation work.',
+          kit: ['2 H-Frame', '2 Cross Brace', '4 Joint Pin', '1 Catwalk / Planks']
+        },
+        {
+          id: 'steel-planks',
+          title: 'Steel Planks',
+          category: 'planks',
+          catLabel: 'Planks & Catwalks',
+          image: 'images/equipments/steelplanks.jpg',
+          desc: 'Heavy-duty steel planks for scaffolding platforms. Available in 2m, 3m, and 4m lengths.',
+          variants: ['2m', '3m', '4m']
+        },
+        {
+          id: 'swivel-fixed-clamp',
+          title: 'Swivel & Fixed Clamp',
+          category: 'pipes',
+          catLabel: 'Pipes & Clamps',
+          image: 'images/equipments/swivelandfixedclamp.jpg',
+          desc: 'Swivel and fixed clamps for connecting scaffolding pipes — swivel for any angle, fixed for rigid 90° connections.'
+        },
+        {
+          id: 'telescopic-uhead',
+          title: 'Telescopic U-Head — 1.2m',
+          category: 'jacks',
+          catLabel: 'Jacks & Supports',
+          image: 'images/equipments/telescopicuhead.jpg',
+          desc: 'Adjustable telescopic U-head for formwork support with 1.2m extension range.'
+        },
+        {
+          id: 'tie-rod',
+          title: 'Tie Rod with Flange Nut 17"',
+          category: 'accessories',
+          catLabel: 'Accessories',
+          image: 'images/equipments/tierod.jpg',
+          desc: 'Tie rods for formwork and scaffolding bracing. Available in .50cm, .60cm, and 1-meter lengths with 17-inch flange nuts.'
+        },
+        {
+          id: 'u-head',
+          title: 'U Head — 32mm × 600mm',
+          category: 'jacks',
+          catLabel: 'Jacks & Supports',
+          image: 'images/equipments/u-head.jpg',
+          desc: 'U-head jack for supporting beams and formwork. 32mm diameter, 600mm height.'
+        }
       ];
-      const grid = document.getElementById('equipmentGrid');
-      if (grid) {
-        galleryNames.forEach((name, i) => {
-          const num = i + 1;
-          const item = document.createElement('div');
-          item.className = 'gallery-item';
-          const imgSrc = `images/gallery-${num}.jpg`;
-          item.style.backgroundImage = `url('${imgSrc}')`;
-          item.dataset.full = imgSrc;
-          item.addEventListener('click', function() { openFullscreen(this.dataset.full); });
-          const label = document.createElement('div');
-          label.className = 'gallery-label';
-          label.textContent = name;
-          item.appendChild(label);
-          grid.appendChild(item);
+
+      /* =========================================================
+         RENDER GALLERY (with images + descriptions + filter)
+         ========================================================= */
+      const galleryGrid = document.getElementById('equipmentGalleryGrid');
+      if (galleryGrid) {
+        equipment.forEach(item => {
+          const card = document.createElement('div');
+          card.className = 'equip-gallery-card';
+          card.dataset.category = item.category;
+          card.dataset.id = item.id;
+
+          card.innerHTML = `
+            <div class="egc-image" style="background-image:url('${item.image}')">
+              <div class="egc-zoom">
+                <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.35-4.35"/><path d="M11 8v6M8 11h6"/></svg>
+              </div>
+            </div>
+            <div class="egc-body">
+              <span class="egc-cat">${item.catLabel}</span>
+              <h3 class="egc-title">${item.title}</h3>
+              <p class="egc-desc">${item.desc}</p>
+            </div>
+          `;
+
+          card.addEventListener('click', () => openEquipLightbox(item));
+          galleryGrid.appendChild(card);
         });
       }
+
+      /* =========================================================
+         FILTER TABS (controls the gallery)
+         ========================================================= */
+      const tabs = document.querySelectorAll('.equip-tab');
+      tabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+          tabs.forEach(t => t.classList.remove('active'));
+          this.classList.add('active');
+          const filter = this.dataset.filter;
+
+          document.querySelectorAll('.equip-gallery-card').forEach(card => {
+            if (filter === 'all' || card.dataset.category === filter) {
+              card.classList.remove('hidden');
+            } else {
+              card.classList.add('hidden');
+            }
+          });
+        });
+      });
+
+      /* =========================================================
+         EQUIPMENT LIGHTBOX
+         ========================================================= */
+      const lb = document.getElementById('equipLightbox');
+      const lbImage = document.getElementById('elbImage');
+      const lbCat = document.getElementById('elbCat');
+      const lbTitle = document.getElementById('elbTitle');
+      const lbDesc = document.getElementById('elbDesc');
+      const lbKitBlock = document.getElementById('elbKitBlock');
+      const lbKitList = document.getElementById('elbKitList');
+      const lbVarBlock = document.getElementById('elbVariantsBlock');
+      const lbVarList = document.getElementById('elbVariantsList');
+      const lbClose = document.getElementById('elbClose');
+
+      function openEquipLightbox(item) {
+        if (!lb) return;
+
+        lbImage.src = item.image;
+        lbImage.alt = item.title;
+        lbCat.textContent = item.catLabel;
+        lbTitle.textContent = item.title;
+        lbDesc.textContent = item.desc;
+
+        if (item.kit && item.kit.length) {
+          lbKitBlock.style.display = 'block';
+          lbKitList.innerHTML = item.kit.map(k => `<li>${k}</li>`).join('');
+        } else {
+          lbKitBlock.style.display = 'none';
+          lbKitList.innerHTML = '';
+        }
+
+        if (item.variants && item.variants.length) {
+          lbVarBlock.style.display = 'block';
+          lbVarList.innerHTML = item.variants.map(v => `<li>${v}</li>`).join('');
+        } else {
+          lbVarBlock.style.display = 'none';
+          lbVarList.innerHTML = '';
+        }
+
+        lb.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeEquipLightbox() {
+        if (!lb) return;
+        lb.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+
+      if (lbClose) lbClose.addEventListener('click', closeEquipLightbox);
+      if (lb) {
+        lb.addEventListener('click', function(e) {
+          if (e.target === lb) closeEquipLightbox();
+        });
+      }
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && lb && lb.classList.contains('active')) {
+          closeEquipLightbox();
+        }
+      });
+
     });
   </script>
 </body>
