@@ -4,22 +4,248 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Projects | R.G. Manalo Scaffolding Rentals</title>
-  <meta name="description" content="View completed and ongoing scaffolding projects by R.G. Manalo Scaffolding Rentals in Pampanga." />
+  <meta name="description" content="Completed scaffolding and construction equipment projects by R.G. Manalo Scaffolding Rentals across Pampanga, Batangas, Laguna, Pasig, and Bataan." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css" />
+
+  <!-- Project-specific styles (lightbox + equipment list) -->
+  <style>
+    /* ===== PROJECT CARD: extra info ===== */
+    .project-card {
+      display: flex;
+      flex-direction: column;
+    }
+    .project-card .project-info {
+      padding: 24px 22px 22px;
+      background: linear-gradient(transparent, rgba(37, 38, 38, 0.92) 40%);
+    }
+    .project-card .project-info .project-location {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 600;
+      font-size: 0.82rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.85);
+      margin-bottom: 4px;
+      display: block;
+    }
+    .project-card .project-info h3 {
+      font-size: 1.25rem;
+      margin-bottom: 8px;
+      line-height: 1.2;
+    }
+    .project-card .project-info .view-details {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 600;
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      color: #fff;
+      background: var(--brand-secondary);
+      padding: 6px 12px;
+      border-radius: 4px;
+      margin-top: 6px;
+      transition: background 0.2s;
+    }
+    .project-card:hover .project-info .view-details {
+      background: var(--secondary-dark);
+    }
+    .project-card .project-info .view-details svg {
+      width: 14px;
+      height: 14px;
+      stroke: #fff;
+      fill: none;
+      stroke-width: 2.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    /* ===== PROJECT LIGHTBOX ===== */
+    .project-lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.92);
+      z-index: 3500;
+      align-items: center;
+      justify-content: center;
+      padding: 30px;
+      overflow-y: auto;
+    }
+    .project-lightbox.active {
+      display: flex;
+    }
+    .project-lightbox-inner {
+      background: #fff;
+      border-radius: 12px;
+      max-width: 980px;
+      width: 100%;
+      max-height: 90vh;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      box-shadow: 0 24px 80px rgba(0, 0, 0, 0.5);
+      position: relative;
+      animation: lightboxIn 0.3s ease;
+    }
+    @keyframes lightboxIn {
+      from { opacity: 0; transform: scale(0.96) translateY(10px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+    .project-lightbox-image {
+      background: #1a1b1b;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 320px;
+      overflow: hidden;
+    }
+    .project-lightbox-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .project-lightbox-content {
+      padding: 40px 36px;
+      overflow-y: auto;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .project-lightbox-content .lb-label {
+      display: inline-block;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 0.78rem;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: #fff;
+      background: var(--brand-secondary);
+      padding: 5px 14px;
+      border-radius: 4px;
+      margin-bottom: 16px;
+      align-self: flex-start;
+    }
+    .project-lightbox-content .lb-label.additional {
+      background: var(--brand-dark);
+    }
+    .project-lightbox-content h2 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 800;
+      font-size: 1.9rem;
+      line-height: 1.1;
+      color: var(--brand-dark);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+    }
+    .project-lightbox-content .lb-location {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 600;
+      font-size: 1rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 24px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--border);
+    }
+    .project-lightbox-content h3 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--brand-dark);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 12px;
+    }
+    .project-lightbox-content .lb-equipment {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 24px;
+    }
+    .project-lightbox-content .lb-equipment li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 10px 0;
+      border-bottom: 1px dashed var(--border);
+      font-family: 'Barlow', sans-serif;
+      font-size: 0.98rem;
+      color: var(--text-dark);
+      line-height: 1.4;
+    }
+    .project-lightbox-content .lb-equipment li:last-child {
+      border-bottom: none;
+    }
+    .project-lightbox-content .lb-equipment li::before {
+      content: '';
+      flex-shrink: 0;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--brand-secondary);
+      margin-top: 8px;
+    }
+    .project-lightbox-close {
+      position: absolute;
+      top: 14px;
+      right: 16px;
+      background: rgba(37, 38, 38, 0.85);
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      font-size: 1.6rem;
+      line-height: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      z-index: 5;
+    }
+    .project-lightbox-close:hover {
+      background: var(--brand-secondary);
+      transform: rotate(90deg);
+    }
+
+    /* Responsive lightbox */
+    @media (max-width: 900px) {
+      .project-lightbox-inner {
+        grid-template-columns: 1fr;
+        max-height: 92vh;
+      }
+      .project-lightbox-image {
+        min-height: 220px;
+        max-height: 280px;
+      }
+      .project-lightbox-content {
+        padding: 28px 24px;
+        max-height: none;
+      }
+      .project-lightbox-content h2 { font-size: 1.5rem; }
+    }
+    @media (max-width: 480px) {
+      .project-lightbox { padding: 12px; }
+      .project-lightbox-content { padding: 22px 18px; }
+      .project-lightbox-content h2 { font-size: 1.3rem; }
+      .project-lightbox-image { min-height: 180px; max-height: 220px; }
+    }
+  </style>
 </head>
 <body>
 
   <a href="https://www.facebook.com/" target="_blank" rel="noopener" class="sticky-facebook" aria-label="Visit our Facebook page">
     <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
   </a>
-
-  <div class="fullscreen-overlay" id="fullscreenOverlay">
-    <button class="close-full" id="closeFullscreen">&times;</button>
-    <img src="" alt="Fullscreen view" id="fullscreenImg" />
-  </div>
 
   <header class="site-header" id="siteHeader">
     <div class="container header-inner">
@@ -48,7 +274,7 @@
     <div class="container">
       <div class="breadcrumb"><a href="index.html">Home</a> / Projects</div>
       <h1>Our Projects</h1>
-      <p>A selection of construction and scaffolding projects we have supported.</p>
+      <p>A selection of construction and scaffolding projects we have supplied equipment for across Luzon.</p>
     </div>
   </section>
 
@@ -56,7 +282,7 @@
     <div class="container">
       <div class="text-center">
         <h2 class="section-title">Recent Work</h2>
-        <p class="section-sub">We take pride in providing reliable equipment for projects of all sizes.</p>
+        <p class="section-sub">Click any project to see the location and the equipment we provided for that site.</p>
       </div>
       <div class="project-grid" id="projectGrid"></div>
     </div>
@@ -77,7 +303,7 @@
           <img src="images/logo.png" alt="R.G. Manalo Scaffolding Rentals logo" />
           <span style="font-weight:700;color:#fff;font-family:'Barlow Condensed',sans-serif;">R.G. Manalo Scaffolding Rental</span>
         </div>
-        <p>Reliable scaffolding and construction equipment rentals for your project needs.</p>
+        <p>Affordable, safety-tested scaffolding and construction equipment rentals in Pampanga and long-distance project sites. Trusted since 1995.</p>
       </div>
       <div>
         <h4>Quick Links</h4>
@@ -105,7 +331,7 @@
       </div>
     </div>
     <div class="footer-bottom">
-      <p>&copy; 2026 R.G. Manalo Scaffolding Rentals. All Rights Reserved.</p>
+      <p>&copy; 2026 R.G. Manalo Scaffolding Rentals. All Rights Reserved. Serving Pampanga since 1995.</p>
     </div>
   </footer>
 
@@ -117,29 +343,191 @@
     </div>
   </div>
 
+  <!-- ===== PROJECT LIGHTBOX ===== -->
+  <div class="project-lightbox" id="projectLightbox" role="dialog" aria-modal="true" aria-labelledby="lbTitle">
+    <div class="project-lightbox-inner">
+      <button class="project-lightbox-close" id="lbClose" aria-label="Close">&times;</button>
+      <div class="project-lightbox-image">
+        <img src="" alt="" id="lbImage" />
+      </div>
+      <div class="project-lightbox-content">
+        <span class="lb-label" id="lbLabel">Project</span>
+        <h2 id="lbTitle">Project Title</h2>
+        <p class="lb-location" id="lbLocation">Location</p>
+        <h3>Equipment Provided</h3>
+        <ul class="lb-equipment" id="lbEquipment"></ul>
+      </div>
+    </div>
+  </div>
+
   <script src="js/main.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
+
+      // ===== PROJECT DATA =====
       const projects = [
-        { img: 'images/marquee-1.jpg', title: 'Residential Building — Porac', location: 'Porac, Pampanga' },
-        { img: 'images/marquee-2.jpg', title: 'Commercial Complex — Angeles', location: 'Angeles City' },
-        { img: 'images/marquee-3.jpg', title: 'Warehouse Construction — Mabalacat', location: 'Mabalacat, Pampanga' },
-        { img: 'images/marquee-4.jpg', title: 'School Building — San Fernando', location: 'San Fernando, Pampanga' },
-        { img: 'images/marquee-5.jpg', title: 'Bridge Repair — Guagua', location: 'Guagua, Pampanga' },
-        { img: 'images/marquee-6.jpg', title: 'Residential Renovation — Lubao', location: 'Lubao, Pampanga' }
+        {
+          id: 1,
+          title: 'University of Adamson',
+          location: 'Lipa City, Batangas',
+          image: 'images/projects/adamson.jpg',
+          additional: false,
+          equipment: [
+            'Shoring Jack 3.4 meters s40'
+          ]
+        },
+        {
+          id: 2,
+          title: 'Angeles City',
+          location: 'Pampanga',
+          image: 'images/projects/angeles.jpg',
+          additional: false,
+          equipment: [
+            'Shoring Jack 3.4 meters s40',
+            'GI Pipe 3 meters s20',
+            'Swivel Clamp'
+          ]
+        },
+        {
+          id: 3,
+          title: 'Lipa City',
+          location: 'Batangas',
+          image: 'images/projects/lipa.jpg',
+          additional: true,
+          equipment: [
+            'Scaffolding 1.2×1.7 s40',
+            'Scaffolding 1.2×1.2 s40',
+            'Base Jack .60',
+            'U Head .60',
+            'Catwalk',
+            'GI Pipe 2 meters s40',
+            'GI Pipe 2.5 meters s40',
+            'GI Pipe 3 meters s40',
+            'GI Pipe 5 meters s40',
+            'Swivel Clamp'
+          ]
+        },
+        {
+          id: 4,
+          title: 'Unilab',
+          location: 'Biñan, Laguna',
+          image: 'images/projects/laguna.jpg',
+          additional: false,
+          equipment: [
+            'Scaffolding 1.2×1.7 s40',
+            'U Head .60'
+          ]
+        },
+        {
+          id: 5,
+          title: 'Brgy. Pinagbuhatan',
+          location: 'Pasig City',
+          image: 'images/projects/pasig.jpg',
+          additional: false,
+          equipment: [
+            'Scaffolding 1.2×1.7 s40',
+            'Scaffolding Ladder',
+            'Steel Planks 3 Meters'
+          ]
+        },
+        {
+          id: 6,
+          title: 'Limay',
+          location: 'Bataan',
+          image: 'images/projects/bataan.jpg',
+          additional: true,
+          equipment: [
+            'Catwalk 1.8m × .40cm',
+            'GI Pipe 2 meters s40',
+            'GI Pipe 3 meters s40'
+          ]
+        }
       ];
+
+      // ===== RENDER PROJECT CARDS =====
       const grid = document.getElementById('projectGrid');
       if (grid) {
         projects.forEach(p => {
           const card = document.createElement('div');
           card.className = 'project-card';
-          card.style.backgroundImage = `url('${p.img}')`;
-          card.dataset.full = p.img;
-          card.addEventListener('click', function() { openFullscreen(this.dataset.full); });
-          card.innerHTML = `<div class="project-info"><h3>${p.title}</h3><span>${p.location}</span></div>`;
+          card.style.backgroundImage = `url('${p.image}')`;
+          card.style.cursor = 'pointer';
+          card.dataset.projectId = p.id;
+
+          card.innerHTML = `
+            <div class="project-info">
+              <span class="project-location">${p.location}${p.additional ? ' · Additional Order' : ''}</span>
+              <h3>${p.title}</h3>
+              <span class="view-details">
+                View Details
+                <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              </span>
+            </div>
+          `;
+
+          card.addEventListener('click', function() {
+            openProjectLightbox(p);
+          });
+
           grid.appendChild(card);
         });
       }
+
+      // ===== LIGHTBOX LOGIC =====
+      const lightbox = document.getElementById('projectLightbox');
+      const lbImage = document.getElementById('lbImage');
+      const lbTitle = document.getElementById('lbTitle');
+      const lbLocation = document.getElementById('lbLocation');
+      const lbLabel = document.getElementById('lbLabel');
+      const lbEquipment = document.getElementById('lbEquipment');
+      const lbClose = document.getElementById('lbClose');
+
+      function openProjectLightbox(project) {
+        if (!lightbox) return;
+
+        lbImage.src = project.image;
+        lbImage.alt = project.title + ' — ' + project.location;
+        lbTitle.textContent = project.title;
+        lbLocation.textContent = project.location;
+
+        if (project.additional) {
+          lbLabel.textContent = 'Additional Order';
+          lbLabel.classList.add('additional');
+        } else {
+          lbLabel.textContent = 'Project';
+          lbLabel.classList.remove('additional');
+        }
+
+        // Build equipment list
+        lbEquipment.innerHTML = '';
+        project.equipment.forEach(item => {
+          const li = document.createElement('li');
+          li.textContent = item;
+          lbEquipment.appendChild(li);
+        });
+
+        lightbox.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeProjectLightbox() {
+        if (!lightbox) return;
+        lightbox.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+
+      if (lbClose) lbClose.addEventListener('click', closeProjectLightbox);
+      if (lightbox) {
+        lightbox.addEventListener('click', function(e) {
+          if (e.target === lightbox) closeProjectLightbox();
+        });
+      }
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && lightbox && lightbox.classList.contains('active')) {
+          closeProjectLightbox();
+        }
+      });
+
     });
   </script>
 </body>
