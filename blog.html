@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blog | R.G. Manalo Scaffolding Rentals</title>
+  <meta name="description" content="Scaffolding tips, construction insights, and updates from R.G. Manalo Scaffolding Rentals." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <a href="https://www.facebook.com/" target="_blank" rel="noopener" class="sticky-facebook" aria-label="Visit our Facebook page">
+    <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+  </a>
+
+  <header class="site-header" id="siteHeader">
+    <div class="container header-inner">
+      <a href="index.html" class="logo">
+        <img src="images/logo.png" alt="R.G. Manalo Scaffolding Rentals logo" />
+        <span class="logo-text">R.G. Manalo Scaffolding Rentals</span>
+      </a>
+      <nav class="nav" id="mainNav">
+        <ul class="nav-list" id="navList">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="equipment.html">Equipment</a></li>
+          <li><a href="projects.html">Projects</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="blog.html">Blog</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+        <a href="contact.html" class="btn btn-primary btn-cta-nav">Request a Quote</a>
+        <button class="hamburger" id="hamburger" aria-label="Toggle navigation" aria-controls="navList" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <section class="page-header">
+    <div class="container">
+      <div class="breadcrumb"><a href="index.html">Home</a> / Blog</div>
+      <h1>Blog</h1>
+      <p>Tips, guides, and insights on scaffolding and construction equipment.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <div class="blog-grid" id="blogGrid"></div>
+    </div>
+  </section>
+
+  <section class="featured-cta">
+    <div class="container">
+      <h2>Have Questions About Scaffolding?</h2>
+      <p>Our team is happy to help. Reach out for advice or a rental quote.</p>
+      <a href="contact.html" class="btn btn-primary btn-large">Contact Us</a>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <div class="footer-logo">
+          <img src="images/logo.png" alt="R.G. Manalo Scaffolding Rentals logo" />
+          <span style="font-weight:700;color:#fff;font-family:'Barlow Condensed',sans-serif;">R.G. Manalo Scaffolding Rental</span>
+        </div>
+        <p>Reliable scaffolding and construction equipment rentals for your project needs.</p>
+      </div>
+      <div>
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="equipment.html">Equipment</a></li>
+          <li><a href="projects.html">Projects</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="blog.html">Blog</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Services</h4>
+        <ul>
+          <li><a href="equipment.html">Scaffolding Rental</a></li>
+          <li><a href="equipment.html">Construction Equipment</a></li>
+          <li><a href="contact.html">Delivery &amp; Pickup</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <p>136 Brgy. Balubad, Porac, Pampanga</p>
+        <p>+63 917 204 5971<br />+63 918 901 3173</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 R.G. Manalo Scaffolding Rentals. All Rights Reserved.</p>
+    </div>
+  </footer>
+
+  <div class="design-credit">
+    <div class="container credit-content">
+      <span>Design by</span>
+      <img src="images/jc-logo.png" alt="JC Tech Services logo" />
+      <span><a href="#" target="_blank">JC Tech Services</a></span>
+    </div>
+  </div>
+
+  <script src="js/main.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const posts = [
+        {
+          img: 'images/gallery-8.jpg',
+          category: 'Safety Tips',
+          title: '5 Essential Safety Tips for Scaffolding Setup',
+          excerpt: 'Proper scaffolding setup is critical for construction site safety. Here are five key practices every team should follow.',
+          date: 'January 15, 2026'
+        },
+        {
+          img: 'images/gallery-5.jpg',
+          category: 'Equipment Guide',
+          title: 'Choosing the Right Steel Planks for Your Project',
+          excerpt: 'Not all planks are created equal. Learn how to select the right type and size for your scaffolding needs.',
+          date: 'January 8, 2026'
+        },
+        {
+          img: 'images/gallery-6.jpg',
+          category: 'Maintenance',
+          title: 'How to Maintain Your Scaffolding Clamps',
+          excerpt: 'Regular maintenance of clamps extends equipment life and ensures safety. Follow these simple steps.',
+          date: 'December 20, 2025'
+        },
+        {
+          img: 'images/marquee-1.jpg',
+          category: 'Project Tips',
+          title: 'Planning Your Scaffolding Rental Timeline',
+          excerpt: 'Proper planning can save you time and money on scaffolding rentals. Here\'s what to consider.',
+          date: 'December 10, 2025'
+        },
+        {
+          img: 'images/gallery-4.jpg',
+          category: 'Product Spotlight',
+          title: 'Understanding Tie Rods and Flange Nuts',
+          excerpt: 'These essential components keep scaffolding structures secure. Learn how they work and when to replace them.',
+          date: 'November 28, 2025'
+        },
+        {
+          img: 'images/gallery-1.jpg',
+          category: 'Best Practices',
+          title: 'Base Plate Installation: A Step-by-Step Guide',
+          excerpt: 'Proper base plate installation is the foundation of safe scaffolding. Here\'s how to do it right.',
+          date: 'November 15, 2025'
+        }
+      ];
+      const grid = document.getElementById('blogGrid');
+      if (grid) {
+        posts.forEach(post => {
+          const card = document.createElement('article');
+          card.className = 'blog-card';
+          card.innerHTML = `
+            <div class="blog-img" style="background-image:url('${post.img}')"></div>
+            <div class="blog-body">
+              <div class="blog-meta">${post.category} &middot; ${post.date}</div>
+              <h3>${post.title}</h3>
+              <p>${post.excerpt}</p>
+              <a href="#" class="read-more">Read More &rarr;</a>
+            </div>
+          `;
+          grid.appendChild(card);
+        });
+      }
+    });
+  </script>
+</body>
+</html>
