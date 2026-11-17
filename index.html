@@ -46,10 +46,9 @@
     </div>
   </header>
 
-  <!-- ===== SPLIT HERO: White bg, text left, image right ===== -->
+  <!-- ===== SPLIT HERO ===== -->
   <section class="hero" id="hero">
     <div class="container">
-      <!-- LEFT: Text -->
       <div class="hero-content">
         <span class="hero-label">Pampanga &amp; Luzon-Wide Equipment Rental</span>
         <h1>Strong Foundations<br />Start With <span class="accent">Reliable</span> Scaffolding</h1>
@@ -75,7 +74,6 @@
         </div>
       </div>
 
-      <!-- RIGHT: Image -->
       <div class="hero-visual">
         <div class="hero-visual-inner">
           <video autoplay muted loop playsinline id="heroVideo">
@@ -152,7 +150,7 @@
     </div>
   </section>
 
-  <!-- ===== FAQ (after CTA) ===== -->
+  <!-- ===== FAQ ===== -->
   <section class="faq-section" id="faq">
     <div class="container">
       <div class="text-center">
@@ -160,7 +158,6 @@
         <p class="section-sub">Quick answers to common questions about our scaffolding and equipment rental service.</p>
       </div>
       <div class="faq-list" id="faqList">
-
         <div class="faq-item">
           <button class="faq-question" aria-expanded="false">
             <span>What areas do you serve?</span>
@@ -193,6 +190,16 @@
 
         <div class="faq-item">
           <button class="faq-question" aria-expanded="false">
+            <span>Do you deliver to project sites?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>Yes. We coordinate delivery and pickup for project sites within Pampanga and can arrange long-distance delivery to other areas in Luzon. Delivery fees may apply depending on location and order size.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
             <span>How do I get a quote?</span>
             <span class="faq-icon">+</span>
           </button>
@@ -201,6 +208,15 @@
           </div>
         </div>
 
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            <span>Is the equipment safety-tested?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>Yes. Our equipment is regularly inspected and maintained to ensure safety and reliability on every project site. We only rent out equipment that meets our safety standards.</p>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -330,6 +346,7 @@
         if (!question) return;
         question.addEventListener('click', function() {
           const isOpen = item.classList.contains('open');
+          // Close all others
           faqItems.forEach(other => {
             if (other !== item) {
               other.classList.remove('open');
@@ -337,6 +354,7 @@
               if (btn) btn.setAttribute('aria-expanded', 'false');
             }
           });
+          // Toggle current
           if (isOpen) {
             item.classList.remove('open');
             question.setAttribute('aria-expanded', 'false');
