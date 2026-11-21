@@ -17,41 +17,6 @@
       background: #ffffff;
       padding: 80px 0;
     }
-    .equip-tabs-wrap {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin-bottom: 44px;
-    }
-    .equip-category-tabs {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      justify-content: center;
-      margin-top: 28px;
-    }
-    .equip-tab {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-weight: 600;
-      font-size: 0.9rem;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      padding: 10px 20px;
-      border-radius: 6px;
-      border: 2px solid var(--border);
-      background: #fff;
-      color: var(--brand-dark);
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    .equip-tab:hover {
-      border-color: var(--brand-dark);
-    }
-    .equip-tab.active {
-      background: var(--brand-dark);
-      color: #fff;
-      border-color: var(--brand-dark);
-    }
 
     /* ===== EQUIPMENT GALLERY GRID ===== */
     .equip-gallery-grid {
@@ -160,11 +125,6 @@
       color: var(--text-body);
       line-height: 1.5;
       margin: 0;
-    }
-
-    /* Hidden by filter */
-    .equip-gallery-card.hidden {
-      display: none;
     }
 
     /* ===== EQUIPMENT DETAIL LIGHTBOX ===== */
@@ -324,7 +284,6 @@
       .equip-gallery-card .egc-body { padding: 14px 14px 16px; }
       .equip-gallery-card .egc-title { font-size: 0.98rem; }
       .equip-gallery-card .egc-desc { font-size: 0.8rem; }
-      .equip-tab { font-size: 0.8rem; padding: 8px 14px; }
     }
     @media (max-width: 480px) {
       .equip-gallery-grid { grid-template-columns: 1fr; }
@@ -372,22 +331,12 @@
     </div>
   </section>
 
-  <!-- ===== EQUIPMENT GALLERY (sortable + with descriptions) ===== -->
+  <!-- ===== EQUIPMENT GALLERY (no filter, custom order) ===== -->
   <section class="equip-section" id="gallery">
     <div class="container">
-      <div class="equip-tabs-wrap">
-        <div class="text-center">
-          <h2 class="section-title">Equipment Gallery</h2>
-          <p class="section-sub">Browse our complete equipment catalog. Click any item to see details, or use the tabs below to filter by category.</p>
-        </div>
-        <div class="equip-category-tabs" id="galleryTabs">
-          <button class="equip-tab active" data-filter="all">All Equipment</button>
-          <button class="equip-tab" data-filter="scaffolding">Scaffolding</button>
-          <button class="equip-tab" data-filter="jacks">Jacks &amp; Supports</button>
-          <button class="equip-tab" data-filter="pipes">Pipes &amp; Clamps</button>
-          <button class="equip-tab" data-filter="planks">Planks &amp; Catwalks</button>
-          <button class="equip-tab" data-filter="accessories">Accessories</button>
-        </div>
+      <div class="text-center">
+        <h2 class="section-title">Equipment Gallery</h2>
+        <p class="section-sub">Browse our complete equipment catalog. Click any item to see details.</p>
       </div>
 
       <div class="equip-gallery-grid" id="equipmentGalleryGrid"></div>
@@ -428,8 +377,8 @@
         <ul>
           <li><a href="equipment.html">Scaffolding Rental</a></li>
           <li><a href="equipment.html">Construction Equipment</a></li>
+          <li><a href="contact.html">Erection &amp; Dismantling (NC II)</a></li>
           <li><a href="contact.html">Delivery &amp; Pickup</a></li>
-          <li><a href="contact.html">Installation &amp; Dismantling</a></li>
         </ul>
       </div>
       <div>
@@ -479,124 +428,10 @@
     document.addEventListener('DOMContentLoaded', function() {
 
       /* =========================================================
-         MASTER EQUIPMENT DATA (20 items)
+         MASTER EQUIPMENT DATA — 20 items in custom order
          ========================================================= */
       const equipment = [
-        {
-          id: 'aluma-beam',
-          title: 'Aluma Beam',
-          category: 'planks',
-          catLabel: 'Planks & Catwalks',
-          image: 'images/equipments/alumabeam.jpg',
-          desc: 'Lightweight aluminum beams for formwork and slab support. Available in 2m, 3m, 4m, and 6m lengths.',
-          variants: ['2m', '3m', '4m', '6m']
-        },
-        {
-          id: 'base-jack',
-          title: 'Base Jack',
-          category: 'jacks',
-          catLabel: 'Jacks & Supports',
-          image: 'images/equipments/base-jack.jpg',
-          desc: 'Adjustable base jack for scaffolding leveling on uneven ground. 32mm diameter, 600mm height.'
-        },
-        {
-          id: 'base-plate',
-          title: 'Base Plate',
-          category: 'accessories',
-          catLabel: 'Accessories',
-          image: 'images/equipments/baseplate.jpg',
-          desc: 'Steel base plate for scaffolding footings. Distributes load evenly on the ground.'
-        },
-        {
-          id: 'beam-clamp',
-          title: 'Beam Clamp',
-          category: 'pipes',
-          catLabel: 'Pipes & Clamps',
-          image: 'images/equipments/beamclamp.jpg',
-          desc: 'Beam clamp for suspending scaffolding pipes from structural I-beams and steel beams.'
-        },
-        {
-          id: 'bs1139-pipe',
-          title: 'BS 1139 Pipe',
-          category: 'pipes',
-          catLabel: 'Pipes & Clamps',
-          image: 'images/equipments/bs1139pipe.jpg',
-          desc: 'BS 1139-certified scaffolding steel pipe. Meets British safety standards for scaffolding.',
-          variants: ['1m', '1.5m', '2m', '3m', '4m', '6m']
-        },
-        {
-          id: 'caster-wheel',
-          title: 'Caster Wheel 8"',
-          category: 'accessories',
-          catLabel: 'Accessories',
-          image: 'images/equipments/casterwheel.jpg',
-          desc: 'Heavy-duty 8-inch caster wheel for mobile scaffolding setups.'
-        },
-        {
-          id: 'cat-walk',
-          title: 'Cat Walk — 1.8 × .40mm',
-          category: 'planks',
-          catLabel: 'Planks & Catwalks',
-          image: 'images/equipments/catwalk.jpg',
-          desc: 'Steel catwalk platform for scaffolding. Provides a stable, safe walking surface for workers.'
-        },
-        {
-          id: 'concrete-mixer',
-          title: '1-Bagger Concrete Mixer',
-          category: 'accessories',
-          catLabel: 'Accessories',
-          image: 'images/equipments/concrete-mixer.jpg',
-          desc: 'Portable one-bagger concrete mixer for small to medium concrete pours on site.'
-        },
-        {
-          id: 'coupler-sleeve',
-          title: 'Coupler Sleeve 1 1/2"',
-          category: 'pipes',
-          catLabel: 'Pipes & Clamps',
-          image: 'images/equipments/couplersleeve.jpg',
-          desc: 'Pipe coupler sleeve for joining two G.I. pipes end-to-end. Fits 1 1/2" diameter pipes.'
-        },
-        {
-          id: 'forge-fixed-clamp',
-          title: 'Forge Fixed Clamp (BS 1139)',
-          category: 'pipes',
-          catLabel: 'Pipes & Clamps',
-          image: 'images/equipments/forgefixedclamp.jpg',
-          desc: 'BS 1139-certified fixed (90°) clamp for rigid scaffold pipe connections.'
-        },
-        {
-          id: 'forge-swivel-clamp',
-          title: 'Forge Swivel Clamp (BS 1139)',
-          category: 'pipes',
-          catLabel: 'Pipes & Clamps',
-          image: 'images/equipments/forgeswivelclamp.jpg',
-          desc: 'BS 1139-certified swivel clamp for pipe connections at any angle. Meets British safety standards.'
-        },
-        {
-          id: 'gi-pipe',
-          title: 'G.I. Pipe 1 1/2"',
-          category: 'pipes',
-          catLabel: 'Pipes & Clamps',
-          image: 'images/equipments/gipipe.jpg',
-          desc: 'Galvanized iron pipes in schedule 20 and schedule 40 for scaffolding, bracing, and general construction.',
-          variants: ['1m', '1.5m', '2m', '2.5m', '3m', '4m', '5m', '6m']
-        },
-        {
-          id: 'scaffolding-ladder',
-          title: 'Scaffolding Ladder — 2m × .40cm',
-          category: 'scaffolding',
-          catLabel: 'Scaffolding',
-          image: 'images/equipments/scaffoldingladder.jpg',
-          desc: 'Steel scaffolding ladder for safe vertical access on scaffolding structures.'
-        },
-        {
-          id: 'shoring-jack',
-          title: 'Shoring Jacks S40',
-          category: 'jacks',
-          catLabel: 'Jacks & Supports',
-          image: 'images/equipments/shoringjacks40.jpg',
-          desc: 'Adjustable shoring jacks for supporting formwork, beams, and slabs. Available in 3.4m, 3.8m, and 4m heights.'
-        },
+        // 1. SCAFFOLDING
         {
           id: 'scaffolding-h-frame',
           title: 'Scaffolding H-Frame',
@@ -606,6 +441,108 @@
           desc: 'Standard H-frame scaffolding set for vertical access and working platforms. Ideal for construction, painting, and renovation work.',
           kit: ['2 H-Frame', '2 Cross Brace', '4 Joint Pin', '1 Catwalk / Planks']
         },
+        // 2. CATWALK
+        {
+          id: 'cat-walk',
+          title: 'Cat Walk — 1.8 × .40mm',
+          category: 'planks',
+          catLabel: 'Planks & Catwalks',
+          image: 'images/equipments/catwalk.jpg',
+          desc: 'Steel catwalk platform for scaffolding. Provides a stable, safe walking surface for workers.'
+        },
+        // 3. SCAFFOLDING LADDER
+        {
+          id: 'scaffolding-ladder',
+          title: 'Scaffolding Ladder — 2m × .40cm',
+          category: 'scaffolding',
+          catLabel: 'Scaffolding',
+          image: 'images/equipments/scaffoldingladder.jpg',
+          desc: 'Steel scaffolding ladder for safe vertical access on scaffolding structures.'
+        },
+        // 4. SHORING JACK
+        {
+          id: 'shoring-jack',
+          title: 'Shoring Jacks S40',
+          category: 'jacks',
+          catLabel: 'Jacks & Supports',
+          image: 'images/equipments/shoringjacks40.jpg',
+          desc: 'Adjustable shoring jacks for supporting formwork, beams, and slabs. Available in 3.4m, 3.8m, and 4m heights.'
+        },
+        // 5. BASE JACK
+        {
+          id: 'base-jack',
+          title: 'Base Jack',
+          category: 'jacks',
+          catLabel: 'Jacks & Supports',
+          image: 'images/equipments/base-jack.jpg',
+          desc: 'Adjustable base jack for scaffolding leveling on uneven ground. 32mm diameter, 600mm height.'
+        },
+        // 6. UHEAD
+        {
+          id: 'u-head',
+          title: 'U Head — 32mm × 600mm',
+          category: 'jacks',
+          catLabel: 'Jacks & Supports',
+          image: 'images/equipments/u-head.jpg',
+          desc: 'U-head jack for supporting beams and formwork. 32mm diameter, 600mm height.'
+        },
+        // 7. GI PIPE s20 s40
+        {
+          id: 'gi-pipe',
+          title: 'G.I. Pipe 1 1/2" — s20 & s40',
+          category: 'pipes',
+          catLabel: 'Pipes & Clamps',
+          image: 'images/equipments/gipipe.jpg',
+          desc: 'Galvanized iron pipes in schedule 20 and schedule 40 for scaffolding, bracing, and general construction.',
+          variants: ['1m', '1.5m', '2m', '2.5m', '3m', '4m', '5m', '6m']
+        },
+        // 8. SWIVEL AND FIX CLAMP
+        {
+          id: 'swivel-fixed-clamp',
+          title: 'Swivel & Fixed Clamp',
+          category: 'pipes',
+          catLabel: 'Pipes & Clamps',
+          image: 'images/equipments/swivelandfixedclamp.jpg',
+          desc: 'Swivel and fixed clamps for connecting scaffolding pipes — swivel for any angle, fixed for rigid 90° connections.'
+        },
+        // 9. BS PIPE
+        {
+          id: 'bs1139-pipe',
+          title: 'BS 1139 Pipe',
+          category: 'pipes',
+          catLabel: 'Pipes & Clamps',
+          image: 'images/equipments/bs1139pipe.jpg',
+          desc: 'BS 1139-certified scaffolding steel pipe. Meets British safety standards for scaffolding.',
+          variants: ['1m', '1.5m', '2m', '3m', '4m', '6m']
+        },
+        // 10. BS CLAMP (Swivel)
+        {
+          id: 'forge-swivel-clamp',
+          title: 'Forge Swivel Clamp (BS 1139)',
+          category: 'pipes',
+          catLabel: 'Pipes & Clamps',
+          image: 'images/equipments/forgeswivelclamp.jpg',
+          desc: 'BS 1139-certified swivel clamp for pipe connections at any angle. Meets British safety standards.'
+        },
+        // 11. BC BEAM CLAMP
+        {
+          id: 'beam-clamp',
+          title: 'Beam Clamp',
+          category: 'pipes',
+          catLabel: 'Pipes & Clamps',
+          image: 'images/equipments/beamclamp.jpg',
+          desc: 'Beam clamp for suspending scaffolding pipes from structural I-beams and steel beams.'
+        },
+        // 12. BS COUPLER SLEEVE
+        {
+          id: 'coupler-sleeve',
+          title: 'Coupler Sleeve 1 1/2"',
+          category: 'pipes',
+          catLabel: 'Pipes & Clamps',
+          image: 'images/equipments/couplersleeve.jpg',
+          desc: 'Pipe coupler sleeve for joining two G.I. pipes end-to-end. Fits 1 1/2" diameter pipes.'
+        },
+        // 13. STEEL PLANKS
         {
           id: 'steel-planks',
           title: 'Steel Planks',
@@ -615,22 +552,17 @@
           desc: 'Heavy-duty steel planks for scaffolding platforms. Available in 2m, 3m, and 4m lengths.',
           variants: ['2m', '3m', '4m']
         },
+        // 14. ALUMA BEAM
         {
-          id: 'swivel-fixed-clamp',
-          title: 'Swivel & Fixed Clamp',
-          category: 'pipes',
-          catLabel: 'Pipes & Clamps',
-          image: 'images/equipments/swivelandfixedclamp.jpg',
-          desc: 'Swivel and fixed clamps for connecting scaffolding pipes — swivel for any angle, fixed for rigid 90° connections.'
+          id: 'aluma-beam',
+          title: 'Aluma Beam',
+          category: 'planks',
+          catLabel: 'Planks & Catwalks',
+          image: 'images/equipments/alumabeam.jpg',
+          desc: 'Lightweight aluminum beams for formwork and slab support. Available in 2m, 3m, 4m, and 6m lengths.',
+          variants: ['2m', '3m', '4m', '6m']
         },
-        {
-          id: 'telescopic-uhead',
-          title: 'Telescopic U-Head — 1.2m',
-          category: 'jacks',
-          catLabel: 'Jacks & Supports',
-          image: 'images/equipments/telescopicuhead.jpg',
-          desc: 'Adjustable telescopic U-head for formwork support with 1.2m extension range.'
-        },
+        // 15. TIE ROD
         {
           id: 'tie-rod',
           title: 'Tie Rod with Flange Nut 17"',
@@ -639,25 +571,61 @@
           image: 'images/equipments/tierod.jpg',
           desc: 'Tie rods for formwork and scaffolding bracing. Available in .50cm, .60cm, and 1-meter lengths with 17-inch flange nuts.'
         },
+        // 16. TELESCOPIC UHEAD
         {
-          id: 'u-head',
-          title: 'U Head — 32mm × 600mm',
+          id: 'telescopic-uhead',
+          title: 'Telescopic U-Head — 1.2m',
           category: 'jacks',
           catLabel: 'Jacks & Supports',
-          image: 'images/equipments/u-head.jpg',
-          desc: 'U-head jack for supporting beams and formwork. 32mm diameter, 600mm height.'
+          image: 'images/equipments/telescopicuhead.jpg',
+          desc: 'Adjustable telescopic U-head for formwork support with 1.2m extension range.'
+        },
+        // 17. CASTER WHEEL
+        {
+          id: 'caster-wheel',
+          title: 'Caster Wheel 8"',
+          category: 'accessories',
+          catLabel: 'Accessories',
+          image: 'images/equipments/casterwheel.jpg',
+          desc: 'Heavy-duty 8-inch caster wheel for mobile scaffolding setups.'
+        },
+        // 18. BASE PLATE
+        {
+          id: 'base-plate',
+          title: 'Base Plate',
+          category: 'accessories',
+          catLabel: 'Accessories',
+          image: 'images/equipments/baseplate.jpg',
+          desc: 'Steel base plate for scaffolding footings. Distributes load evenly on the ground.'
+        },
+        // 19. MIXER
+        {
+          id: 'concrete-mixer',
+          title: '1-Bagger Concrete Mixer',
+          category: 'accessories',
+          catLabel: 'Accessories',
+          image: 'images/equipments/concrete-mixer.jpg',
+          desc: 'Portable one-bagger concrete mixer for small to medium concrete pours on site.'
+        },
+        // 20. FORGE FIXED CLAMP (BS 1139) — restored at the end
+        {
+          id: 'forge-fixed-clamp',
+          title: 'Forge Fixed Clamp (BS 1139)',
+          category: 'pipes',
+          catLabel: 'Pipes & Clamps',
+          image: 'images/equipments/forgefixedclamp.jpg',
+          desc: 'BS 1139-certified fixed (90°) clamp for rigid scaffold pipe connections.'
         }
       ];
 
       /* =========================================================
-         RENDER GALLERY (with images + descriptions + filter)
+         RENDER GALLERY (no filter — displays in order above)
          ========================================================= */
       const galleryGrid = document.getElementById('equipmentGalleryGrid');
       if (galleryGrid) {
         equipment.forEach(item => {
           const card = document.createElement('div');
           card.className = 'equip-gallery-card';
-          card.dataset.category = item.category;
           card.dataset.id = item.id;
 
           card.innerHTML = `
@@ -677,26 +645,6 @@
           galleryGrid.appendChild(card);
         });
       }
-
-      /* =========================================================
-         FILTER TABS (controls the gallery)
-         ========================================================= */
-      const tabs = document.querySelectorAll('.equip-tab');
-      tabs.forEach(tab => {
-        tab.addEventListener('click', function() {
-          tabs.forEach(t => t.classList.remove('active'));
-          this.classList.add('active');
-          const filter = this.dataset.filter;
-
-          document.querySelectorAll('.equip-gallery-card').forEach(card => {
-            if (filter === 'all' || card.dataset.category === filter) {
-              card.classList.remove('hidden');
-            } else {
-              card.classList.add('hidden');
-            }
-          });
-        });
-      });
 
       /* =========================================================
          EQUIPMENT LIGHTBOX
