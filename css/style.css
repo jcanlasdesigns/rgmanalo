@@ -1302,3 +1302,111 @@ section { padding: 80px 0; }
     aspect-ratio: 4 / 3;
   }
 }
+
+/* ===== CONTACT ICONS (SVG) ===== */
+.contact-info p {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.contact-icon {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  background: var(--primary-soft);
+  color: var(--brand-primary);
+  margin-right: 0;
+}
+.contact-icon svg {
+  width: 18px;
+  height: 18px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.contact-icon.fb {
+  background: #e7f0fe;
+  color: #1877f2;
+}
+.contact-info p span:not(.contact-icon) {
+  padding-top: 6px;
+  line-height: 1.5;
+}
+
+/* ===== MOBILE: CENTER ALL CTA BUTTONS ===== */
+@media (max-width: 768px) {
+  /* Center "Learn About Us" button in About section */
+  .about-text {
+    text-align: center;
+  }
+  .about-text h2,
+  .about-text p {
+    text-align: center;
+  }
+  .about-text .btn {
+    display: inline-block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .about-text .stats {
+    text-align: left;
+  }
+  .about-text .stats > div {
+    text-align: center;
+  }
+
+  /* Center "Inquire About This Service" button in erection section */
+  .erection-strip .es-content {
+    text-align: center;
+  }
+  .erection-strip h2,
+  .erection-strip p {
+    text-align: center;
+  }
+  .erection-strip .es-list {
+    text-align: left;
+  }
+  .erection-strip .es-list li {
+    justify-content: flex-start;
+  }
+  .erection-strip .es-content .btn {
+    display: inline-block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .erection-strip .es-badge {
+    margin-left: auto;
+    margin-right: auto;
+    display: inline-block;
+  }
+
+  /* Center "Get in Touch" button in contact section */
+  .contact-info {
+    text-align: center;
+  }
+  .contact-info h2 {
+    text-align: center;
+  }
+  .contact-info > p {
+    justify-content: flex-start;
+    text-align: left;
+  }
+  .contact-info > p strong {
+    text-align: left;
+  }
+  .contact-info > div {
+    text-align: center;
+  }
+  .contact-info > div .btn {
+    display: inline-block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
